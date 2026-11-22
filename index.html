@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bori 3D Print &amp; Design · Custom 3D printing and design</title>
+<meta name="description" content="Bori 3D Print & Design: custom 3D printed parts, organizers, mounts and figures, designed in Fusion 360 and printed on a five-printer farm.">
+<style>
+  :root{
+    --bg:#121315; --bg2:#1a1c1f; --panel:#202327; --line:#2e3237;
+    --text:#ecebe7; --muted:#a6a39b; --amber:#f2b43a; --amber2:#ffcf66;
+    --pr-red:#e0353b; --pr-blue:#3b7be0; --radius:16px;
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+    --font:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+  .eyebrow{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:600}
+  h1,h2,h3{line-height:1.12;margin:0;font-weight:750;letter-spacing:-.01em}
+  h2{font-size:clamp(1.8rem,3.4vw,2.6rem)}
+  .lead{color:var(--muted);font-size:1.08rem;max-width:62ch}
+  section{padding:88px 0}
+  .btn{display:inline-flex;align-items:center;gap:.5em;padding:.85em 1.35em;border-radius:999px;font-weight:650;text-decoration:none;
+       border:1px solid transparent;transition:transform .15s ease,background .15s ease,border-color .15s ease;cursor:pointer;font-size:1rem}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--amber);color:#1a1405}
+  .btn-primary:hover{background:var(--amber2)}
+  .btn-ghost{border-color:var(--line);color:var(--text);background:transparent}
+  .btn-ghost:hover{border-color:var(--amber)}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky;top:0;z-index:30;background:rgba(18,19,21,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:92px;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand .star{width:62px;height:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+  .brand .lockup{height:72px;width:auto}
+  .nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+  .nav ul a{text-decoration:none;color:var(--muted);font-size:.95rem}
+  .nav ul a:hover{color:var(--text)}
+  @media (max-width:860px){.nav ul{display:none}}
+  .btn{white-space:nowrap}
+  @media (max-width:520px){
+    .nav .wrap{height:80px}
+    .brand{gap:8px}
+    .brand .star{width:44px}
+    .brand .lockup{height:56px}
+    .nav .btn{padding:.6em 1em;font-size:.88rem}
+    .hero h1 br{display:none}
+  }
+
+  /* ---- hero ---- */
+  .hero{position:relative;padding:64px 0 72px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:720px;height:720px;
+    background:radial-gradient(closest-side,rgba(242,180,58,.16),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(2.3rem,5vw,3.9rem);margin:14px 0 18px}
+  .hero h1 em{font-style:normal;color:var(--amber)}
+  .hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .hero-points{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;padding:0;list-style:none;color:var(--muted);font-size:.93rem}
+  .hero-points li::before{content:"✓";color:var(--amber);margin-right:.5em;font-weight:700}
+  .hero-shot{position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);aspect-ratio:1/1}
+  .hero-shot img{width:100%;height:100%;object-fit:cover}
+  .hero-tag{position:absolute;left:16px;bottom:16px;right:16px;display:flex;justify-content:space-between;align-items:end;gap:12px;
+    padding:14px 16px;border-radius:14px;background:rgba(18,19,21,.78);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
+  .hero-tag b{display:block}
+  .hero-tag span{color:var(--muted);font-size:.86rem}
+  .chip{font-size:.75rem;padding:.35em .75em;border-radius:999px;border:1px solid rgba(242,180,58,.5);color:var(--amber);white-space:nowrap}
+  @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-shot{max-width:560px}}
+
+  /* ---- bori strip ---- */
+  .strip{border-block:1px solid var(--line);background:var(--bg2)}
+  .strip .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 42px;padding:18px 0;color:var(--muted);font-size:.93rem}
+  .strip b{color:var(--text);font-weight:600}
+
+  /* ---- work / gallery ---- */
+  .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filters button{background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.5em 1em;font:inherit;font-size:.9rem;cursor:pointer}
+  .filters button[aria-pressed="true"]{color:#1a1405;background:var(--amber);border-color:var(--amber)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .card{position:relative;border-radius:var(--radius);overflow:hidden;background:#e9e9e7;border:1px solid var(--line);cursor:zoom-in;
+        aspect-ratio:1/1;transition:transform .2s ease}
+  .card:hover{transform:translateY(-3px)}
+  .card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .card:hover img{transform:scale(1.04)}
+  .card figcaption{position:absolute;inset:auto 0 0 0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(10,10,12,.86));font-size:.9rem}
+  .card figcaption span{display:block;color:var(--muted);font-size:.78rem}
+  .card.wide{grid-column:span 2;aspect-ratio:2/1}
+  .card[hidden]{display:none}
+  @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.grid{grid-template-columns:1fr}.card.wide{grid-column:auto;aspect-ratio:1/1}}
+
+  /* ---- spotlight ---- */
+  .spot{background:var(--bg2);border-block:1px solid var(--line)}
+  .spot .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .spot-pics{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .spot-pics img{border-radius:14px;border:1px solid var(--line);aspect-ratio:1/1;object-fit:cover;width:100%}
+  .spot-pics img:first-child{grid-row:span 2;aspect-ratio:auto;height:100%}
+  .spot ul{padding:0;list-style:none;margin:22px 0 0}
+  .spot li{padding:12px 0;border-top:1px solid var(--line);display:flex;gap:14px}
+  .spot li b{min-width:120px;color:var(--amber);font-weight:600}
+  @media (max-width:900px){.spot .wrap{grid-template-columns:1fr}}
+
+  /* ---- services ---- */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+  .svc{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .svc .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(242,180,58,.12);color:var(--amber);margin-bottom:16px}
+  .svc h3{font-size:1.15rem;margin-bottom:8px}
+  .svc p{margin:0;color:var(--muted);font-size:.95rem}
+  @media (max-width:900px){.services{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.services{grid-template-columns:1fr}}
+
+  /* ---- farm ---- */
+  .farm{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:36px}
+  .printer{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px}
+  .printer small{color:var(--amber);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+  .printer h3{font-size:1.1rem;margin:6px 0 8px}
+  .printer p{margin:0;color:var(--muted);font-size:.9rem}
+  @media (max-width:1000px){.farm{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:600px){.farm{grid-template-columns:1fr 1fr}}
+
+  /* ---- steps ---- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px;counter-reset:s}
+  .step{padding:24px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--bg))}
+  .step::before{counter-increment:s;content:"0" counter(s);display:block;font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:6px}
+  .step h3{font-size:1.08rem;margin-bottom:6px}
+  .step p{margin:0;color:var(--muted);font-size:.93rem}
+  @media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+  /* ---- quote ---- */
+  .quote .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px;display:grid;gap:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{display:grid;gap:6px;font-size:.88rem;color:var(--muted)}
+  input,select,textarea{background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:.75em .9em;font:inherit;font-size:.98rem}
+  input:focus,select:focus,textarea:focus{outline:2px solid rgba(242,180,58,.55);border-color:transparent}
+  textarea{min-height:120px;resize:vertical}
+  .note{font-size:.82rem;color:var(--muted);margin:0}
+  .done{display:none;padding:14px 16px;border-radius:12px;background:rgba(242,180,58,.1);border:1px solid rgba(242,180,58,.4);color:var(--text)}
+  @media (max-width:900px){.quote .wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:42px 0;color:var(--muted);font-size:.9rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+  /* ---- lightbox ---- */
+  .lb{position:fixed;inset:0;background:rgba(6,6,8,.92);display:none;place-items:center;z-index:50;padding:24px}
+  .lb.open{display:grid}
+  .lb img{max-height:82vh;border-radius:14px;box-shadow:var(--shadow)}
+  .lb p{color:var(--muted);text-align:center;margin:12px 0 0}
+  .lb button{position:absolute;top:18px;right:18px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:999px;width:44px;height:44px;font-size:1.3rem;cursor:pointer}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Bori 3D Print and Design, home">
+      <img class="star" src="images/b3dpd-star-clear.png" alt="" width="240" height="217">
+      <img class="lockup" src="images/bori-logo-lockup-3dpd.png" alt="BORI 3D Print &amp; Design · Hecho con orgullo boricua" width="391" height="240">
+    </a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#farm">Print farm</a></li>
+      <li><a href="#how">How it works</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#quote">Get a quote</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Custom 3D printing · Fusion 360 design</div>
+        <h1>If you can picture it,<br> we can <em>print it.</em></h1>
+        <p class="lead">Bori 3D Print &amp; Design turns ideas into real, useful parts: modular organizers for your shop,
+          wall mounts made to fit your gear, replacement parts you can't buy anymore, and one-of-a-kind figures.
+          Every piece is designed in-house and printed on our own five-printer farm.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#quote">Start your project →</a>
+          <a class="btn btn-ghost" href="#work">See our prints</a>
+        </div>
+        <ul class="hero-points">
+          <li>Designed from your idea, sketch or broken part</li>
+          <li>Single pieces or small batches</li>
+          <li>Multi-color and multi-material</li>
+        </ul>
+      </div>
+      <figure class="hero-shot" style="margin:0">
+        <img src="images/drawer-system-workshop-hero.webp" alt="An eight-drawer modular storage tower, 3D printed in grey and black with a yellow base drawer, standing in a workshop" width="1254" height="1254">
+        <figcaption class="hero-tag">
+          <div><b>Modular drawer system</b><span>Stackable, labeled, built for a real workshop</span></div>
+          <span class="chip">Our design</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <span><b>Designed</b> in Fusion 360</span>
+      <span><b>Printed</b> in-house, start to finish</span>
+      <span><b>Built</b> to be used, not just looked at</span>
+      <span><b>Boricua</b> owned and operated</span>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="eyebrow">Real prints</div>
+          <h2>Straight off our printers</h2>
+        </div>
+        <div class="filters" role="group" aria-label="Filter prints">
+          <button type="button" data-f="all" aria-pressed="true">All</button>
+          <button type="button" data-f="storage" aria-pressed="false">Storage</button>
+          <button type="button" data-f="mounts" aria-pressed="false">Mounts</button>
+          <button type="button" data-f="figures" aria-pressed="false">Figures</button>
+        </div>
+      </div>
+      <div class="grid" id="grid">
+        <figure class="card wide" data-c="storage" style="margin:0"><img loading="lazy" src="images/drawer-system-workshop-detail.webp" alt="Drawer pulled out on its slide, showing the cross-braced drawer frame"><figcaption>Drawer system, slide detail<span>Smooth full-extension slides, printed in place</span></figcaption></figure>
+        <figure class="card" data-c="storage" style="margin:0"><img loading="lazy" src="images/drawer-system-full-stack.webp" alt="Full eight-drawer storage stack on a white background"><figcaption>Full stack<span>Eight drawers, one footprint</span></figcaption></figure>
+        <figure class="card" data-c="storage" style="margin:0"><img loading="lazy" src="images/drawer-system-pullout.webp" alt="Open drawer with a grid of small compartments"><figcaption>Compartment drawer<span>Labeled for spares and small parts</span></figcaption></figure>
+        <figure class="card" data-c="storage" style="margin:0"><img loading="lazy" src="images/nozzle-organizer.webp" alt="Open case holding rows of printer nozzles sorted by size"><figcaption>Nozzle organizer<span>Every size in its own slot</span></figcaption></figure>
+        <figure class="card" data-c="mounts" style="margin:0"><img loading="lazy" src="images/camera-mount-pan-wall.webp" alt="Black wall arm holding a pan-tilt security camera"><figcaption>Pan camera wall mount<span>Fits the camera, hides the cable</span></figcaption></figure>
+        <figure class="card" data-c="mounts" style="margin:0"><img loading="lazy" src="images/camera-mount-mini-wall.webp" alt="Small black arm holding a compact security camera on a wall"><figcaption>Mini camera mount<span>Adjustable ball head</span></figcaption></figure>
+        <figure class="card" data-c="mounts" style="margin:0"><img loading="lazy" src="images/camera-mount-detail.webp" alt="Close-up of a printed camera mount arm and base"><figcaption>Mount, close up<span>Designed around the hardware</span></figcaption></figure>
+        <figure class="card" data-c="figures" style="margin:0"><img loading="lazy" src="images/gold-stitched-bear.webp" alt="Gold stitched teddy bear figure with X eyes"><figcaption>Gold stitched bear<span>Multi-color print, no paint</span></figcaption></figure>
+        <figure class="card" data-c="figures" style="margin:0"><img loading="lazy" src="images/stitched-rabbit.webp" alt="Black and purple stitched rabbit figure with a pink heart"><figcaption>Stitched rabbit<span>Multi-color, straight off the plate</span></figcaption></figure>
+        <figure class="card" data-c="figures" style="margin:0"><img loading="lazy" src="images/headphone-skull-figurine.webp" alt="Hooded skull figure wearing red headphones, holding a game controller"><figcaption>Gamer reaper<span>Collectible figure</span></figcaption></figure>
+        <figure class="card" data-c="mounts" style="margin:0"><img loading="lazy" src="images/camera-mount-mini.webp" alt="Compact camera on a short printed arm, warm studio light"><figcaption>Mini mount, side view<span>Strong, light, matte black</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPOTLIGHT -->
+  <section class="spot" aria-labelledby="spot-h">
+    <div class="wrap">
+      <div class="spot-pics">
+        <img loading="lazy" src="images/drawer-system-slide-detail.webp" alt="Drawer frame and slides seen from the front">
+        <img loading="lazy" src="images/camera-mount-in-use.webp" alt="Camera mount holding a camera with its cable coiled">
+        <img loading="lazy" src="images/drawer-system-full-stack.webp" alt="Drawer tower, front view">
+      </div>
+      <div>
+        <div class="eyebrow">Design spotlight</div>
+        <h2 id="spot-h">Made to fit what you actually own</h2>
+        <p class="lead">We don't stop at "close enough". Mounts are modeled around the exact camera, drawers around the
+          exact parts that go in them. You get something that works the first day and keeps working.</p>
+        <ul>
+          <li><b>Measured</b><span>Your part, device or space is measured and modeled in Fusion 360.</span></li>
+          <li><b>Tested</b><span>A test print checks the fit before the final run.</span></li>
+          <li><b>Finished</b><span>Printed in the right material and color for where it lives.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="eyebrow">Services</div>
+      <h2>What we can make for you</h2>
+      <div class="services">
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div>
+          <h3>Custom design in Fusion 360</h3><p>Bring an idea, a sketch or a photo. We turn it into a print-ready 3D model.</p></article>
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6M10 3v6L4.5 19A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/></svg></div>
+          <h3>Prototyping</h3><p>Fast test prints so you can hold it, check the fit and change it before you commit.</p></article>
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3>Small-batch production</h3><p>From one piece to a run of parts for your shop, product line or event.</p></article>
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="5"/><circle cx="16" cy="9" r="5"/><circle cx="12" cy="15" r="5"/></svg></div>
+          <h3>Multi-color &amp; multi-material</h3><p>Several colors in one print, plus tough, flexible and heat-resistant materials.</p></article>
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg></div>
+          <h3>3D scanning</h3><p>Scan an existing object to copy it, modify it or design something that fits around it.</p></article>
+        <article class="svc"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.6-.4-.4-2.6 2.5-2.5Z"/></svg></div>
+          <h3>Replacement parts</h3><p>Broken clip, missing knob, discontinued bracket: we model it and print a new one.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FARM -->
+  <section id="farm" style="background:var(--bg2);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <div class="eyebrow">The print farm</div>
+      <h2>Five printers, one shop</h2>
+      <p class="lead">Each job goes to the machine that suits it best: speed, size, materials or color.</p>
+      <div class="farm">
+        <div class="printer"><small>Bambu Lab</small><h3>P2S</h3><p>Fast, reliable everyday prints and multi-color work.</p></div>
+        <div class="printer"><small>Bambu Lab</small><h3>X2D</h3><p>Dual-nozzle printing for two materials or colors in one part.</p></div>
+        <div class="printer"><small>Bambu Lab</small><h3>H2C</h3><p>Large, enclosed builds and engineering materials.</p></div>
+        <div class="printer"><small>Creality</small><h3>K2 Plus</h3><p>Big build volume for tall and wide pieces.</p></div>
+        <div class="printer"><small>FlashForge</small><h3>Creator 5 Pro</h3><p>Enclosed printing for tougher, heat-resistant parts.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how">
+    <div class="wrap">
+      <div class="eyebrow">How it works</div>
+      <h2>From idea to part in four steps</h2>
+      <div class="steps">
+        <div class="step"><h3>Tell us the idea</h3><p>Send a description, photos, measurements or the broken part.</p></div>
+        <div class="step"><h3>We design it</h3><p>Your part is modeled in Fusion 360, and you see it before anything prints.</p></div>
+        <div class="step"><h3>We print and test</h3><p>Printed on the right machine and material, and checked for fit.</p></div>
+        <div class="step"><h3>You pick it up</h3><p>Ready to use. Need more? Reprints are quick because the design is on file.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quote" class="quote" style="background:var(--bg2);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Get a quote</div>
+        <h2>Tell us what you need</h2>
+        <p class="lead">Describe your project and we'll come back with a design plan and a price. No idea is too small,
+          and a rough sketch is a perfect place to start.</p>
+        <p class="lead" style="margin-top:18px">¿Prefieres en español? Escríbenos en español y te contestamos igual.</p>
+      </div>
+      <form id="qf" novalidate>
+        <div class="row">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Email or phone<input name="contact" autocomplete="email" required></label>
+        </div>
+        <div class="row">
+          <label>What do you need?
+            <select name="type">
+              <option>Custom design</option><option>Prototype</option><option>Small batch</option>
+              <option>Replacement part</option><option>3D scan</option><option>Figure or gift</option><option>Not sure yet</option>
+            </select>
+          </label>
+          <label>How many?<input name="qty" type="number" min="1" value="1" inputmode="numeric"></label>
+        </div>
+        <label>Project details<textarea name="details" placeholder="Size, use, color, material, deadline… anything that helps."></textarea></label>
+        <button class="btn btn-primary" type="submit" style="justify-self:start">Request my quote</button>
+        <p class="note">This form is a preview and doesn't send anything yet.</p>
+        <div class="done" id="done" role="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--text)">Bori 3D Print &amp; Design</b> · Custom 3D printing and design</div>
+    <div>Hecho con orgullo boricua <span aria-hidden="true">★</span></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged photo">
+  <button type="button" id="lbx" aria-label="Close">×</button>
+  <figure style="margin:0"><img id="lbi" alt=""><p id="lbc"></p></figure>
+</div>
+
+<script>
+  // gallery filters
+  const btns = document.querySelectorAll('.filters button');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    document.querySelectorAll('#grid .card').forEach(c => { c.hidden = b.dataset.f !== 'all' && c.dataset.c !== b.dataset.f; });
+  }));
+  // lightbox
+  const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'), lbc = document.getElementById('lbc');
+  document.querySelectorAll('#grid .card').forEach(c => c.addEventListener('click', () => {
+    const img = c.querySelector('img'); lbi.src = img.src; lbi.alt = img.alt;
+    lbc.textContent = c.querySelector('figcaption').firstChild.textContent.trim(); lb.classList.add('open');
+  }));
+  const close = () => lb.classList.remove('open');
+  document.getElementById('lbx').addEventListener('click', close);
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  // quote form: preview only, never sends
+  document.getElementById('qf').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target, done = document.getElementById('done');
+    if (!f.name.value.trim() || !f.contact.value.trim()) {
+      done.style.display = 'block'; done.textContent = 'Please add your name and an email or phone number.'; return;
+    }
+    done.style.display = 'block';
+    done.textContent = 'Thanks, ' + f.name.value.trim().split(' ')[0] + '! This page is a preview, so nothing was sent. ' +
+      'Once the form is connected, your ' + f.type.value.toLowerCase() + ' request will go straight to Bori 3D Print & Design.';
+  });
+</script>
+</body>
+</html>
