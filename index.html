@@ -343,8 +343,9 @@
           <label>How many?<input name="qty" type="number" min="1" value="1" inputmode="numeric"></label>
         </div>
         <label>Project details<textarea name="details" placeholder="Size, use, color, material, deadline… anything that helps."></textarea></label>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <button class="btn btn-primary" type="submit" style="justify-self:start">Request my quote</button>
-        <p class="note">This form is a preview and doesn't send anything yet.</p>
+        <p class="note">Your request goes straight to our inbox, and we usually reply within a day or two.</p>
         <div class="done" id="done" role="status"></div>
       </form>
     </div>
@@ -380,16 +381,38 @@
   document.getElementById('lbx').addEventListener('click', close);
   lb.addEventListener('click', e => { if (e.target === lb) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-  // quote form: preview only, never sends
-  document.getElementById('qf').addEventListener('submit', e => {
+  // quote form: sends through FormSubmit (formsubmit.co) to the shop inbox
+  const QUOTE_ENDPOINT = 'https://formsubmit.co/ajax/bori@b3dpd.com';
+  document.getElementById('qf').addEventListener('submit', async e => {
     e.preventDefault();
-    const f = e.target, done = document.getElementById('done');
-    if (!f.name.value.trim() || !f.contact.value.trim()) {
-      done.style.display = 'block'; done.textContent = 'Please add your name and an email or phone number.'; return;
+    const f = e.target, done = document.getElementById('done'), btn = f.querySelector('button[type=submit]');
+    const name = f.elements.name.value.trim(), contact = f.elements.contact.value.trim();
+    const show = msg => { done.style.display = 'block'; done.textContent = msg; };
+    if (!name || !contact) { show('Please add your name and an email or phone number.'); return; }
+    if (f.elements._honey.value) return; // bot
+    const data = {
+      name, contact,
+      'what they need': f.elements.type.value,
+      quantity: f.elements.qty.value,
+      details: f.elements.details.value.trim(),
+      _subject: 'New quote request: ' + f.elements.type.value + ' from ' + name,
+      _template: 'table'
+    };
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) data._replyto = contact;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const r = await fetch(QUOTE_ENDPOINT, {
+        method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(data)
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'send failed');
+      f.reset();
+      show('Thanks, ' + name.split(' ')[0] + '! Your request is on its way. We\'ll get back to you soon.');
+    } catch (err) {
+      show('Sorry, that didn\'t go through. Please try again, or email us at bori@b3dpd.com.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Request my quote';
     }
-    done.style.display = 'block';
-    done.textContent = 'Thanks, ' + f.name.value.trim().split(' ')[0] + '! This page is a preview, so nothing was sent. ' +
-      'Once the form is connected, your ' + f.type.value.toLowerCase() + ' request will go straight to Bori 3D Print & Design.';
   });
 </script>
 </body>

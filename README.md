@@ -14,5 +14,5 @@ A custom domain can be added later on the same settings page.
 
 ## Still to do
 
-- **Quote form:** it shows a thank-you message but does not send anything yet. It needs a form service (for example Web3Forms or FormSubmit) pointed at the business email.
+- **Quote form:** it sends to bori@b3dpd.com through [FormSubmit](https://formsubmit.co) (free, no account). The very first submission triggers a one-time "Activate Form" email to that inbox; click the button in it, and every request after that arrives as a normal email. The address is set in `QUOTE_ENDPOINT` near the bottom of `index.html`.
 - **Logo:** the header logo art currently reads "BORI Print & 3D Design". Swap in the reworded copy at `images/bori-logo-lockup-3dpd.png` when it is ready.
