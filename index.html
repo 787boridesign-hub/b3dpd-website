@@ -166,6 +166,7 @@
     </a>
     <ul>
       <li><a href="#work">Work</a></li>
+      <li><a href="#storage">Storage</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#farm">Print farm</a></li>
       <li><a href="#how">How it works</a></li>
@@ -262,6 +263,27 @@
           <li><b>Tested</b><span>A test print checks the fit before the final run.</span></li>
           <li><b>Finished</b><span>Printed in the right material and color for where it lives.</span></li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORAGE -->
+  <section id="storage" aria-labelledby="storage-h">
+    <div class="wrap">
+      <div class="eyebrow">Modular storage</div>
+      <h2 id="storage-h">Storage built around your shop</h2>
+      <p class="lead">It's fully modular, so you choose how many drawers you want, or skip the drawers and just stack the boxes.
+        Mount it on a wall, roll it around on a cart or hang it under a work table, then add inserts shaped around your own tools.
+        Printed to order in the colors you pick.</p>
+      <div class="grid" id="storage-grid" style="margin-top:34px">
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-cart-open-drawer.webp" alt="A rolling modular storage tower with wrenches in the top tray, a hose reel on the side and an open parts drawer"><figcaption>Rolling cart<span>Tools on top, parts below</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-wall-mount.webp" alt="Storage boxes mounted on a wall, one drawer pulled out showing red bins of small parts"><figcaption>Wall mounted<span>Off the bench, still in reach</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-under-table-slide.webp" alt="Black and red slide bracket that mounts a storage box under a work table"><figcaption>Under-table slide<span>Hangs a drawer under your bench</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-open-drawer.webp" alt="Drawer pulled out showing a grid of red bins filled with small parts"><figcaption>Parts drawer<span>Every bin sized to its parts</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-workbench-setup.webp" alt="Open storage case with red dividers on a workbench, more boxes mounted on the wall behind"><figcaption>Mix and match<span>Cases, drawers and wall mounts</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-custom-insert.webp" alt="Pliers and tools held in a custom-fit black and red foam-style printed insert"><figcaption>Custom inserts<span>Shaped around your tools</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-insert-tools.webp" alt="Printed tool insert holding a digital caliper, sockets and bits"><figcaption>Tool inserts<span>A spot for everything</span></figcaption></figure>
+        <figure class="card" style="margin:0"><img loading="lazy" src="images/storage-case-insert.webp" alt="Turquoise printed case open on a wooden table, showing a white divided insert"><figcaption>Color options<span>Pick the colors you like</span></figcaption></figure>
       </div>
     </div>
   </section>
@@ -373,7 +395,7 @@
   }));
   // lightbox
   const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'), lbc = document.getElementById('lbc');
-  document.querySelectorAll('#grid .card').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('#grid .card, #storage-grid .card').forEach(c => c.addEventListener('click', () => {
     const img = c.querySelector('img'); lbi.src = img.src; lbi.alt = img.alt;
     lbc.textContent = c.querySelector('figcaption').firstChild.textContent.trim(); lb.classList.add('open');
   }));
